@@ -25,15 +25,7 @@ public class CreditCard {
         stringScanner.close();
     }
 
-//    public static boolean isValidCreditCard(String cc) {
-//
-//        //TODO Replace with your code to process the credit card number, and determine if it is valid.
-//        //TODO Make sure all the tests pass!
-//        boolean testBool = false;
-//
-//        return testBool;
-//
-//    }
+
     public static boolean isValidCreditCard(String cardNumber){
         // Booleans to check validity
         boolean checkDigit = false;
@@ -43,38 +35,45 @@ public class CreditCard {
         char[] cardNumArray = cardNumber.toCharArray();
         // Create boolean to check if the current number should be doubled
         boolean doubleThis = true;
-        //todo  Start digit check
-        if (cardNumArray)
+        // Start digit check
+        if (cardNumArray[0] == '4'){
+            checkStartDigit = true;
+        }
+
         // Length check
         if (cardNumArray.length == 16){
             checkLength = true;
         }
-        // Number addition
+        // Check digit check- Number addition
         int cardNumberAdd = 0;
-        for (char number : cardNumArray) {
+        for (int currentNumber : cardNumArray) {
+            // Create varaible to store the integer value of the current card number
+            // Character.getNumericValue(char c) gets the value of the char
+            // http://stackoverflow.com/questions/19388037/converting-characters-to-integers-in-java
+            // http://docs.oracle.com/javase/7/docs/api/java/lang/Character.html#getNumericValue%28char%29
+            int number = Character.getNumericValue(currentNumber);
+            // Check if the current number should be doubled
             if (doubleThis){
+                // Check if the doubled number is higher than 10
                 if (number * 2 > 9) {
                     cardNumberAdd += 1;
                     cardNumberAdd += (number * 2) - 10;
                     doubleThis = false;
                 } else {
                     cardNumberAdd += number * 2;
-                    doubleThis = true;
+                    doubleThis = false;
                 }
             } else {
                 cardNumberAdd += number;
+                doubleThis = true;
             }
         }
         if (cardNumberAdd % 10 == 0){
             checkDigit = true;
         }
+        // Return the result of the calculations
+        return (checkDigit && checkLength && checkStartDigit);
 
-//        // Check if number is valid
-//        if (checkDigit && checkLength && checkStartDigit){
-//            return true;
-//        } else {
-//            return false;
-//        }
 
     }
 
